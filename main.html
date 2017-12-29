@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Budget App</title>
+    <!-- bootstap html and cc elemets-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <!--links my css page -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+    <!--Allows me to use JQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+
+</head>
+<body>
+
+    <nav>
+        <h4 class="navHead">Simple Budget</h4>
+        
+        <button type="button" class="btn btn-info btn-lg modalButton" data-toggle="modal" data-target="#myModal">Add Expense</button>
+    </nav>
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+                <fieldset>
+
+                <!-- Form Name -->
+                    <legend>Form Name</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="textinput">Name</label>  
+                      <div class="col-md-4">
+                      <input id="inputName" name="textinput" type="text" placeholder="Ex. Food, Bills, Paycheck" class="form-control input-md name" required> 
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="textinput">Amount</label>  
+                      <div class="col-md-4">
+                      <input id="moneyAmount" name="textinput" type="text" placeholder="$50" class="form-control input-md amount" required>
+                      </div>
+                    </div>
+
+                    <!-- Multiple Radios (inline) -->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="radios">Amount</label>
+                      <div class="col-md-4"> 
+                        <label class="radio-inline" for="radios-0">
+                          <input type="radio" name="radios" id="depositYes" value="deposit" checked="checked" required>
+                          Deposit
+                        </label> 
+                        <label class="radio-inline" for="radios-1">
+                          <input type="radio" name="radios" id="withdrawalYes" value="withdrawal" required>
+                          Withdrawal
+                        </label> 
+                      </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-defaul submitButton" id="submitButton" onclick="test()" data-dismiss="modal">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div id="mainDiv" class="col-md-12">
+                
+
+                <h2>Budget Table</h2>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Payment
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableDiv">
+<!--                         <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                Dank
+                            </td>S
+                            <td>
+                                + $100
+                            </td>
+                            <td>
+                                $515
+                            </td>
+                            <td>
+                                Dec 16, 2017
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+<!-- Allows me to use Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <!-- Actual js file -->
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

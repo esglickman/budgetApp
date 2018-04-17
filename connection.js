@@ -2,14 +2,15 @@ var mysql = require('mysql');
 var express = require('express');
 var path = require('path');
 var app = express();
- 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'main.html'));
-})
-app.use('/assets', express.static(path.join(__dirname, '/assets')));
+var bodyParser = require('body-parser');
 
- 
-app.listen(3000);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+app.use('/assets', express.static(path.join(__dirname, '/assets'))); 
+
+app.listen(3001);
 
 
 var connection = mysql.createConnection({
@@ -29,3 +30,19 @@ connection.connect(function(err) {
  
   console.log('connected as id ' + connection.threadId);
 });
+
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'main.html'));
+})
+app.post('/dank.html', function (req, res) {
+  res.sendFile(path.join(__dirname, 'main.html'));
+
+  console.log('body: ' + req.body);
+
+  connection.query('INSERT INTO budgetData (Name, Increase, Payment, Total) VALUES (?, ?, ?, ?);', [req.body.Name, req.body.Increase, req.body.Payment, req.body.Total] ,function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results[0].solution);
+});
+
+})

@@ -10,40 +10,84 @@ var table = $('#tableDiv');
 
 //make a function to add or subtract total and call in in function test()
 
-function test() { 
+function test(e) { 
+	// e.preventDefault();
+	
 	var operator;
 	//checks to see if it is a positive to total or negative
-	var depwit= $('#depositYes').is(":checked");
+	var transaction= $('#depositYes').is(":checked");
+	console.log("REEEEE: " + transaction)
 	id++;
 
-	console.log(depwit);
+	console.log(transaction);
 
-	if (depwit != true) {
+	if (transaction != true) {
+		transaction = 0;
 	//Withdrawal
 		total = math.withdraw($('#moneyAmount').val());
-		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "-" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + math.withdraw($('#moneyAmount').val()) + "</td><td> Dec 16, 2017</td></tr>");
+		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "-" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + total + "</td><td> Dec 16, 2017</td></tr>");
+		
 	} else {
 	//Deposit
+		transaction = 1;
 		console.log("it be false");
 		total = math.deposit($('#moneyAmount').val());
-		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "+" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + math.deposit($('#moneyAmount').val()) + "</td><td> Dec 16, 2017</td></tr>");
+		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "+" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + total + "</td><td> Dec 16, 2017</td></tr>");
 	}
 
 	console.log(total);
-	// connection.query('INSERT INTO budgetData SET ?',
-	// 	{
-	// 		Name: $('#inputName').val(),
-	// 		Increase: $('#depositYes').is(":checked"),
-	// 		Payment: $('#moneyAmount').val(),
-	// 		Total: 
-	// 	}, 
-	// 	function (error, results, fields) {
-	//   if (error) throw error;
-	//   // ...
-	// });
 
+		var DBObject = {
+
+			Name: $('#inputName').val(),
+			Increase: transaction,
+			Payment: $('#moneyAmount').val(),
+			Total: total
+
+		};
+
+	$.ajax({
+			type: 'POST',
+			url:'dank.html',
+			data: DBObject,
+			success: function(newOrder) {
+				alert('yas');
+				console.log('success!');
+			},
+			error: function(jqXHR, textStatus, err) {
+                alert('text status '+textStatus+', err '+err)
+            }
+		})
+
+		
 
 }
+
+
+$("#submitButton").on("click", function() {
+	console.log('this starting aye');
+	var DBObject = {
+
+			Name: $('#inputName').val(),
+			Increase: $('#depositYes').is(":checked"),
+			Payment: $('#moneyAmount').val(),
+			Total: total
+
+		};
+
+	$.ajax({
+			type: 'POST',
+			url: '/dank',
+			data: DBObject,
+			success: function(newOrder) {
+				console.log('success!');
+			},
+			error: function(jqXHR, textStatus, err) {
+                alert('text status '+textStatus+', err '+err)
+            }
+		})
+})
+
 
 var math = {
 

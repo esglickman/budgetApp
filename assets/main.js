@@ -1,5 +1,17 @@
 // var con = require('connection.js');
 
+       $(document).ready(function(){
+        
+        $.ajax({ type: "GET",   
+                 url: "/main.html",
+                 success : function(text) {
+                     console.log(text);
+                 }
+        });
+
+      
+       });
+
 
 var id = 0;
 var total = 0;
@@ -25,14 +37,13 @@ function test(e) {
 		transaction = 0;
 	//Withdrawal
 		total = math.withdraw($('#moneyAmount').val());
-		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "-" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + total + "</td><td> Dec 16, 2017</td></tr>");
+		
 		
 	} else {
 	//Deposit
 		transaction = 1;
 		console.log("it be false");
 		total = math.deposit($('#moneyAmount').val());
-		$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "+" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + total + "</td><td> Dec 16, 2017</td></tr>");
 	}
 
 	console.log(total);
@@ -51,8 +62,13 @@ function test(e) {
 			url:'dank.html',
 			data: DBObject,
 			success: function(newOrder) {
-				alert('yas');
+				
 				console.log('success!');
+				if (DBObject.Increase == 0) {
+					$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "-" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + DBObject.Total + "</td><td> Dec 16, 2017</td></tr>");
+				} else if (DBObject.Increase == 1) {
+					$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "+" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + DBObject.Total + "</td><td> Dec 16, 2017</td></tr>");
+				}
 			},
 			error: function(jqXHR, textStatus, err) {
                 alert('text status '+textStatus+', err '+err)

@@ -31,18 +31,36 @@ connection.connect(function(err) {
   console.log('connected as id ' + connection.threadId);
 });
 
-
+//get req when page loads
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'main.html'));
+
 })
+
+app.get('/main.html', function(req, res) {
+  
+  var query = connection.query('SELECT * FROM budgetData;', function (error, results, fields) {
+    
+    res.send(JSON.stringify(results));
+    if (error) throw error;
+    console.log('The solution is: ', error);
+  });
+
+  // JSON.strigify(query);
+  // res.send(query);
+})
+
+//ajax post
 app.post('/dank.html', function (req, res) {
   res.sendFile(path.join(__dirname, 'main.html'));
 
-  console.log('body: ' + req.body);
+  console.log('body: ' + JSON.stringify(req.body));
 
-  connection.query('INSERT INTO budgetData (Name, Increase, Payment, Total) VALUES (?, ?, ?, ?);', [req.body.Name, req.body.Increase, req.body.Payment, req.body.Total] ,function (error, results, fields) {
+  connection.query('INSERT INTO budgetData (Name, Increase, Payment, Total) VALUES (?, ?, ?, ?);', [req.body.Name, parseInt(req.body.Increase), req.body.Payment, req.body.Total] ,function (error, results, fields) {
   if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
+  console.log('The solution is: ', error);
 });
 
 })
+
+

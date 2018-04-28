@@ -1,11 +1,34 @@
 // var con = require('connection.js');
+var id, total ;
 
        $(document).ready(function(){
         
         $.ajax({ type: "GET",   
                  url: "/main.html",
+                 dataType:"JSON",
                  success : function(text) {
-                     console.log(text);
+                     // console.log(text[0].ID);
+
+
+                     for (i=0; i < text.length; i++){
+                     	if(text[i].Increase == 0) {
+                     		var increase = "-";
+                     	} else {
+                     		var increase = "+";
+                     	}
+
+                     		total = text[i].Total;
+                     	// if( total == "null" || total == "undefined" || total == "NaN"){
+                     	// 	total = 0 ;
+                     	// } else {
+                     		
+                     	// }
+                     	$('#tableDiv').prepend("<tr> <td>" + text[i].ID + "</td><td>" + text[i].Name + "</td><td>" + increase + " " + text[i].Payment + "</td><td>" + "$" + total + "</td><td> " + text[i].CurrentDate + "</td></tr>");
+                     	id=text[i].ID;
+                     
+                     		
+                    
+                     }
                  }
         });
 
@@ -13,7 +36,6 @@
        });
 
 
-var id = 0;
 var total = 0;
 var increase = true;
 var table = $('#tableDiv');
@@ -29,15 +51,16 @@ function test(e) {
 	//checks to see if it is a positive to total or negative
 	var transaction= $('#depositYes').is(":checked");
 	console.log("REEEEE: " + transaction)
-	id++;
+	id++
 
 	console.log(transaction);
 
 	if (transaction != true) {
 		transaction = 0;
 	//Withdrawal
-		total = math.withdraw($('#moneyAmount').val());
+
 		
+		total = math.withdraw($('#moneyAmount').val());
 		
 	} else {
 	//Deposit
@@ -50,6 +73,7 @@ function test(e) {
 
 		var DBObject = {
 
+			ID: id,
 			Name: $('#inputName').val(),
 			Increase: transaction,
 			Payment: $('#moneyAmount').val(),
@@ -63,7 +87,12 @@ function test(e) {
 			data: DBObject,
 			success: function(newOrder) {
 				
-				console.log('success!');
+				console.log('success! : ' );
+					if( DBObject.Total == "null" || DBObject.Total == "undefined" || DBObject.Total == "NaN"){
+                     		DBObject.Total = 0 ;
+                     	} else {
+                     		
+                     	}
 				if (DBObject.Increase == 0) {
 					$('#tableDiv').prepend("<tr> <td>" + id + "</td><td>" + $('#inputName').val() + "</td><td>" + "-" + " " + $('#moneyAmount').val() + "</td><td>" + "$" + DBObject.Total + "</td><td> Dec 16, 2017</td></tr>");
 				} else if (DBObject.Increase == 1) {
@@ -80,29 +109,30 @@ function test(e) {
 }
 
 
-$("#submitButton").on("click", function() {
-	console.log('this starting aye');
-	var DBObject = {
+// $("#submitButton").on("click", function() {
+// 	console.log('this starting aye');
+// 	var DBObject = {
 
-			Name: $('#inputName').val(),
-			Increase: $('#depositYes').is(":checked"),
-			Payment: $('#moneyAmount').val(),
-			Total: total
+// 			Name: $('#inputName').val(),
+// 			Increase: $('#depositYes').is(":checked"),
+// 			Payment: $('#moneyAmount').val(),
+// 			Total: total
 
-		};
+// 		};
 
-	$.ajax({
-			type: 'POST',
-			url: '/dank',
-			data: DBObject,
-			success: function(newOrder) {
-				console.log('success!');
-			},
-			error: function(jqXHR, textStatus, err) {
-                alert('text status '+textStatus+', err '+err)
-            }
-		})
-})
+// 	$.ajax({
+// 			type: 'POST',
+// 			url: '/dank',
+// 			data: DBObject,
+// 			dataType:"JSON",
+// 			success: function(newOrder) {
+// 				console.log('pls show results:' + newOrder);
+// 			},
+// 			error: function(jqXHR, textStatus, err) {
+//                 alert('text status '+textStatus+', err '+err)
+//             }
+// 		})
+// })
 
 
 var math = {

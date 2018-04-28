@@ -41,7 +41,7 @@ app.get('/main.html', function(req, res) {
   
   var query = connection.query('SELECT * FROM budgetData;', function (error, results, fields) {
     
-    res.send(JSON.stringify(results));
+    res.json(results);
     if (error) throw error;
     console.log('The solution is: ', error);
   });
@@ -54,12 +54,16 @@ app.get('/main.html', function(req, res) {
 app.post('/dank.html', function (req, res) {
   res.sendFile(path.join(__dirname, 'main.html'));
 
-  console.log('body: ' + JSON.stringify(req.body));
+
+
 
   connection.query('INSERT INTO budgetData (Name, Increase, Payment, Total) VALUES (?, ?, ?, ?);', [req.body.Name, parseInt(req.body.Increase), req.body.Payment, req.body.Total] ,function (error, results, fields) {
   if (error) throw error;
   console.log('The solution is: ', error);
+  console.log('good stuff this is the results:' + results);
+
 });
+
 
 })
 
